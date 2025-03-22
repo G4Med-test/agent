@@ -1,0 +1,8 @@
+{
+  "dispatcher_repo": "G4Med-test/dispatcher",
+  "server_name": "server-alpha",
+  "poll_interval_minutes": 10,
+  "max_jobs_per_cycle": 1,
+  "preferred_repositories": ["G4Med-test/LowEFrag"],
+  "scheduler": "lsf"   // <--- can be "lsf", "slurm", or "pbs"
+}

@@ -1,0 +1,31 @@
+name: Build Apptainer Container
+
+on:
+  push:
+    paths:
+      - Apptainer.def
+      - check_and_wait.sh
+  workflow_dispatch:
+
+jobs:
+  build-container:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Apptainer
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y apptainer
+
+      - name: Build Apptainer Container (with GH_TOKEN support)
+        run: |
+          cp check_and_wait.sh /tmp/check_and_wait.sh
+          apptainer build gh.sif Apptainer.def
+
+      - name: Upload built container
+        uses: actions/upload-artifact@v3
+        with:
+          name: gh
+          path: gh.sif

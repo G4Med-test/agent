@@ -1,0 +1,23 @@
+Bootstrap: docker
+From: almalinux:9
+
+%post
+  dnf -y update
+  dnf install -y git gh python3 python3-pip epel-release
+  pip3 install --upgrade pip
+  pip3 install requests pyyaml PyGithub
+
+%environment
+  export PATH=/usr/local/bin:$PATH
+  export LANG=en_US.UTF-8
+  export LC_ALL=en_US.UTF-8
+  # Do not hardcode token — it will be passed from outside as env var
+  echo "The agent expects GITHUB_TOKEN to be passed from the host."
+
+%runscript
+  echo "Running the agent..."
+  if [ -z "$GITHUB_TOKEN" ]; then
+    echo "Error: GITHUB_TOKEN environment variable is not set."
+    exit 1
+  fi
+  exec python3 /run_agent.py
