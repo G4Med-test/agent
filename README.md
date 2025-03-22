@@ -40,3 +40,9 @@ apptainer build gh.sif Apptainer.def
 ```bash
 0 8 * * * GH_TOKEN=your_token_here apptainer run --bind /path/to/state_folder:/state /path/to/gh.sif >> /path/to/logfile.log 2>&1
 ```
+
+or:
+
+```bash
+*/10 * * * * export GITHUB_TOKEN=ghp_xxx && /path/to/agent.sif >> /var/log/agent.log 2>&1
+```
